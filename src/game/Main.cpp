@@ -20,7 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <glog/logging.h>
+#include <filesystem>
+
 int main(int argc, char* args[]) {
+	// Init Logging
+	std::filesystem::create_directory("../log");
+	FLAGS_log_dir = "../log";
+	google::InitGoogleLogging(args[0]);
+
+
 
 	return 0;
 }
