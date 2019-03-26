@@ -22,14 +22,46 @@
 
 #include <glog/logging.h>
 #include <filesystem>
+#include "../graphics/Graphic.h"
+#include <GLFW/glfw3.h>
+
+Graphic graphic;
+
+void window_size_callback(GLFWwindow* window, int width, int height) {
+	if (window == NULL)
+		return;
+	graphic.setWindowSize(glm::vec2(width, height));
+}
 
 int main(int argc, char* args[]) {
 	// Init Logging
 	std::filesystem::create_directory("../log");
 	FLAGS_log_dir = "../log";
 	google::InitGoogleLogging(args[0]);
+	
+	// Init GLFW
+	CHECK(glfwInit()) << "Failed to init glfw";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	GLFWwindow* window;
+	CHECK(window = glfwCreateWindow(1024, 768, "Journey on ice", NULL, NULL)) << "Failed to create GLFW window";
+	glfwMakeContextCurrent(window);
 
+	// Init Graphic System
+	CHECK(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) << "Failed to initialize GLAD";
+	graphic.loadResources();
+	graphic.setWindowSize(glm::vec2(1024, 768));
 
+	glfwSetWindowSizeCallback(window, window_size_callback);
+
+	while (!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+		graphic.setView(glm::vec2(0, 0), glm::vec2(256, 192));
+		glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		graphic.drawSprite(spr_old_hut, glm::vec2(0, 0), ani_idle, glfwGetTime()*1000);
+		glfwSwapBuffers(window);
+	}
 
 	return 0;
 }

@@ -51,18 +51,23 @@ file(GLOB_RECURSE SRC_UTILS
     "${CMAKE_SOURCE_DIR}/src/utils/*.cpp"
     "${CMAKE_SOURCE_DIR}/src/utils/*.h"
 )
+file(GLOB_RECURSE SRC_GRAPHICS
+    "${CMAKE_SOURCE_DIR}/src/graphics/*.cpp"
+    "${CMAKE_SOURCE_DIR}/src/graphics/*.h"
+)
 file(GLOB_RECURSE SRC_SHADER
     "${CMAKE_SOURCE_DIR}/shader/*.frag"
     "${CMAKE_SOURCE_DIR}/shader/*.vert"
 )
 
-add_executable(semitas ${SRC_COMPENENTS} ${SRC_GAME} ${SRC_GLAD} ${SRC_SYSTEMS} ${SRC_UTILS})
+add_executable(semitas ${SRC_COMPENENTS} ${SRC_GAME} ${SRC_GLAD} ${SRC_SYSTEMS} ${SRC_GRAPHICS} ${SRC_UTILS})
 
 source_group("components"            FILES ${SRC_COMPENENTS})
 source_group("game"                  FILES ${SRC_GAME})
 source_group("glad"                  FILES ${SRC_GLAD})
 source_group("systems"               FILES ${SRC_SYSTEMS})
 source_group("utils"                 FILES ${SRC_UTILS})
+source_group("graphics"              FILES ${SRC_GRAPHICS})
 source_group("shader"                FILES ${SRC_SHADER})
 
 target_link_libraries(semitas glfw)
