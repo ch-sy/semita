@@ -24,6 +24,8 @@
 #include <filesystem>
 #include "../graphics/Graphic.h"
 #include <GLFW/glfw3.h>
+#include <entityx/entityx.h>
+#include "LevelHome.h"
 
 Graphic graphic;
 
@@ -44,7 +46,7 @@ int main(int argc, char* args[]) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	GLFWwindow* window;
-	CHECK(window = glfwCreateWindow(1024, 768, "Semitas", NULL, NULL)) << "Failed to create GLFW window";
+	CHECK(window = glfwCreateWindow(1024, 768, "semita", NULL, NULL)) << "Failed to create GLFW window";
 	glfwMakeContextCurrent(window);
 
 	// Init Graphic System
@@ -53,14 +55,21 @@ int main(int argc, char* args[]) {
 	graphic.setWindowSize(glm::vec2(1024, 768));
 
 	glfwSetFramebufferSizeCallback(window, window_size_callback);
-
+	LevelHome level(graphic);
+	double dt = 0;
+	double pre_time = glfwGetTime();
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		graphic.setView(glm::vec2(0, 0), glm::vec2(256, 192));
 		glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		graphic.drawSprite(spr_old_hut, glm::vec2(sin(glfwGetTime()) * 20, 0), ani_idle, glfwGetTime()*1000);
+		level.update(dt);
 		glfwSwapBuffers(window);
+
+		// Measure delta time
+		double new_time = glfwGetTime();
+		dt = new_time - pre_time;
+		pre_time = new_time;
 	}
 
 	return 0;

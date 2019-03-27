@@ -20,16 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#ifndef SPRITE_COMPONENT_H
+#define SPRITE_COMPONENT_H
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
+#include <entityx/entityx.h>
+#include "../graphics/SpriteId.h"
+
+struct SpriteComponent : entityx::Component<SpriteComponent> {
+	SpriteComponent(SpriteId sprite_id) : sprite_id(sprite_id) {};
+	SpriteId sprite_id;
 };
 
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
-
-#endif SPRITE_ID_H
+#endif SPRITE_COMPONENT_H

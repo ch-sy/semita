@@ -20,16 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#include "MovementSystem.h"
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
-};
-
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
-
-#endif SPRITE_ID_H
+void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+	es.each<PositionComponent, GravityComponent>([&](entityx::Entity entity, PositionComponent &position, GravityComponent &gravity) {
+		position.pos.y += gravity.acceleration * dt;
+	});
+}

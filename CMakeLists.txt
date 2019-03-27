@@ -6,7 +6,7 @@ HunterGate(
     SHA1 "4189bbd869abe4eb69b5303d3f916c03d34dc154"
 )
 
-project(semitas)
+project(semita)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -31,7 +31,7 @@ find_package(glog CONFIG REQUIRED)
 hunter_add_package(entityx)
 find_package(entityx CONFIG REQUIRED)
 
-file(GLOB_RECURSE SRC_COMPENENTS
+file(GLOB_RECURSE SRC_COMPONENTS
     "${CMAKE_SOURCE_DIR}/src/components/*.cpp"
     "${CMAKE_SOURCE_DIR}/src/components/*.h"
 )
@@ -60,9 +60,9 @@ file(GLOB_RECURSE SRC_SHADER
     "${CMAKE_SOURCE_DIR}/shader/*.vert"
 )
 
-add_executable(semitas ${SRC_COMPENENTS} ${SRC_GAME} ${SRC_GLAD} ${SRC_SYSTEMS} ${SRC_GRAPHICS} ${SRC_UTILS})
+add_executable(semita ${SRC_COMPONENTS} ${SRC_GAME} ${SRC_GLAD} ${SRC_SYSTEMS} ${SRC_GRAPHICS} ${SRC_UTILS})
 
-source_group("components"            FILES ${SRC_COMPENENTS})
+source_group("components"            FILES ${SRC_COMPONENTS})
 source_group("game"                  FILES ${SRC_GAME})
 source_group("glad"                  FILES ${SRC_GLAD})
 source_group("systems"               FILES ${SRC_SYSTEMS})
@@ -70,18 +70,18 @@ source_group("utils"                 FILES ${SRC_UTILS})
 source_group("graphics"              FILES ${SRC_GRAPHICS})
 source_group("shader"                FILES ${SRC_SHADER})
 
-target_link_libraries(semitas glfw)
-target_link_libraries(semitas glm)
-target_link_libraries(semitas ZLIB::zlib)
-target_link_libraries(semitas vorbis::vorbis)
-target_link_libraries(semitas fmt::fmt)
-target_link_libraries(semitas entityx::entityx)
-target_link_libraries(semitas glog::glog)
+target_link_libraries(semita glfw)
+target_link_libraries(semita glm)
+target_link_libraries(semita ZLIB::zlib)
+target_link_libraries(semita vorbis::vorbis)
+target_link_libraries(semita fmt::fmt)
+target_link_libraries(semita entityx::entityx)
+target_link_libraries(semita glog::glog)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	target_link_libraries(semitas c++experimental)
+	target_link_libraries(semita c++experimental)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	target_link_libraries(semitas stdc++fs)
+	target_link_libraries(semita stdc++fs)
 endif()
 
-install(TARGETS semitas RUNTIME DESTINATION bin)
+install(TARGETS semita RUNTIME DESTINATION bin)

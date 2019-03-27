@@ -20,16 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#ifndef MOVEMENT_SYSTEM_H
+#define MOVEMENT_SYSTEM_H
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
+#include <entityx/entityx.h>
+#include <entityx/System.h>
+#include "../components/PositionComponent.h"
+#include "../components/SpriteComponent.h"
+#include "../components/GravityComponent.h"
+
+class MovementSystem : public entityx::System<MovementSystem> {
+public:
+	void update(entityx::EntityManager & es, entityx::EventManager & events, entityx::TimeDelta dt) override;
 };
 
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
-
-#endif SPRITE_ID_H
+#endif MOVEMENT_SYSTEM_H

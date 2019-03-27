@@ -20,16 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#ifndef GRAVITY_COMPONENT_H
+#define GRAVITY_COMPONENT_H
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
+#include <entityx/entityx.h>
+#include <glm/glm.hpp>
+
+struct GravityComponent : entityx::Component<GravityComponent> {
+	GravityComponent(float deceleration, float acceleration) : deceleration(deceleration),
+		acceleration(acceleration) {};
+	float deceleration;
+	float acceleration;
 };
 
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
-
-#endif SPRITE_ID_H
+#endif GRAVITY_COMPONENT_H

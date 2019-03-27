@@ -20,16 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <glog/logging.h>
-#include <filesystem>
-#include "../graphics/Graphic.h"
-#include <GLFW/glfw3.h>
+#include "RenderSystem.h"
 
-Graphic graphic;
+RenderSystem::RenderSystem(Graphic &g) : m_g(g){
 
-void window_size_callback(GLFWwindow* window, int width, int height) {
-	if (window == NULL)
-		return;
-	graphic.setWindowSize(glm::vec2(width, height));
 }
 
+void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+	es.each<PositionComponent, SpriteComponent>([&](entityx::Entity entity, PositionComponent &position, SpriteComponent &sprite) {
+		m_g.drawSprite(sprite.sprite_id, position.pos);
+	});
+}

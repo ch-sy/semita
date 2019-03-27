@@ -20,16 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#include "LevelHome.h"
+#include "../systems/RenderSystem.h"
+#include "../systems/MovementSystem.h"
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
-};
+LevelHome::LevelHome(Graphic &g) : m_g(g) {
+	systems.add<RenderSystem>(g);
+	systems.add<MovementSystem>();
+	systems.configure();
 
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
+	// Create example entity
+	entityx::Entity example = entities.create();
+	example.assign<PositionComponent>(glm::vec2(0, 0));
+	example.assign<SpriteComponent>(spr_old_hut);
+	example.assign<GravityComponent>(10, 10);
+}
 
-#endif SPRITE_ID_H
+void LevelHome::update(entityx::TimeDelta dt) {
+	systems.update<RenderSystem>(dt);
+	systems.update<MovementSystem>(dt);
+}

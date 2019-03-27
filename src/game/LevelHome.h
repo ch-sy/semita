@@ -20,16 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SPRITE_ID_H
-#define SPRITE_ID_H
+#ifndef LEVEL_HOME_H
+#define LEVEL_HOME_H
 
-enum SpriteId : size_t {
-	spr_old_hut,
-	SPRITE_COUNT
+#include <entityx/entityx.h>
+#include "../graphics/Graphic.h"
+
+class LevelHome : public entityx::EntityX {
+private:
+	Graphic &m_g;
+public:
+	explicit LevelHome(Graphic &g);
+	void update(entityx::TimeDelta dt);
 };
 
-constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
-};
-
-#endif SPRITE_ID_H
+#endif LEVEL_HOME_H

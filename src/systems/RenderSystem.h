@@ -26,11 +26,15 @@
 #include <entityx/entityx.h>
 #include <entityx/System.h>
 #include "../graphics/Graphic.h"
+#include "../components/PositionComponent.h"
+#include "../components/SpriteComponent.h"
 
 class RenderSystem : public entityx::System<RenderSystem> {
 private:
-	Graphic& g;
+	Graphic &m_g;
 public:
+	RenderSystem(Graphic &g);
+	void update(entityx::EntityManager & es, entityx::EventManager & events, entityx::TimeDelta dt) override;
 };
 
 #endif RENDER_SYSTEM_H
