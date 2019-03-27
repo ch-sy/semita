@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef ASEPRITE_H
+#define ASEPRITE_H
 
 #include <glm/glm.hpp>
 #include <fstream>
@@ -83,3 +84,5 @@ struct Aseprite {
 
 // Reference: https://github.com/aseprite/aseprite/blob/master/docs/ase-file-specs.md
 bool decodeAseprite(Aseprite& aseprite, std::string file);
+
+#endif ASEPRITE_H

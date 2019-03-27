@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef SOUND_ID_H
+#define SOUND_ID_H
 
 enum SoundId : size_t {
 	snd_button_select,
@@ -30,3 +31,5 @@ enum SoundId : size_t {
 constexpr char* kSoundPaths[SOUND_COUNT]{
 	"../sounds/good_neighbor.aseprite"
 };
+
+#endif SOUND_ID_H

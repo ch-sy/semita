@@ -29,6 +29,13 @@
 #include "Aseprite.h"
 #include <glog/logging.h>
 
+std::string GetAnimationName(AnimationId animation_id) {
+	for (auto &relation : kAnimationNames) {
+		if (relation.second == animation_id)
+			return relation.first;
+	}
+	return "UNKNOWN";
+};
 
 void Graphic::drawSprite(SpriteId sprite, 
 						 glm::vec2 position, 
@@ -38,6 +45,8 @@ void Graphic::drawSprite(SpriteId sprite,
 
 	const SpriteData& sprite_data = m_sprites[sprite];
 	const SpriteAnimation& sprite_animation = sprite_data.animations[animation];
+	CHECK(sprite_animation.duration > 0) << "Sprite \"" << kSpritePaths[sprite]
+		<< "\" doesn't provide the Animation \"" << GetAnimationName(animation) << "\"";
 	const int ani_pos = sprite_animation.start + (animation_progress % sprite_animation.duration);
 	const SpriteFrame& sprite_frame = sprite_data.frames.lower_bound(ani_pos)->second;
 	for (auto &cel : sprite_frame.cels) {
@@ -67,7 +76,7 @@ bool Graphic::loadResources() {
 	// Loading fonts
 	for (size_t i = 0; i < FONT_COUNT; i++) {
 		Aseprite aseprite;
-		CHECK(decodeAseprite(aseprite, kFontPaths[i])) << "Can't load " << kFontPaths[i];
+		CHECK(decodeAseprite(aseprite, kFontPaths[i])) << "Can't load font " << kFontPaths[i];
 		initTexture(aseprite.cels[0]);
 		m_fonts[i].texture = aseprite.cels[0].texture_id;
 		for (auto &slice : aseprite.slices) {
@@ -105,7 +114,7 @@ bool Graphic::loadResources() {
 		Aseprite aseprite;
 		std::cout << kSpritePaths[i] << std::endl;
 		
-		CHECK(decodeAseprite(aseprite, kSpritePaths[i])) << "Can't load " << kSpritePaths[i];
+		CHECK(decodeAseprite(aseprite, kSpritePaths[i])) << "Can't load sprite" << kSpritePaths[i];
 		
 		for (AsepriteCel &cel : aseprite.cels) {
 			initTexture(cel);
@@ -126,7 +135,6 @@ bool Graphic::loadResources() {
 		int time = -1;
 		for (AsepriteFrame ase_frame : aseprite.frames) {
 			time += ase_frame.duration;
-			std::cout << "Time " << time << " Cels " << ase_frame.cel_ids.size() << "\n";
 			for (size_t cel_id : ase_frame.cel_ids) {
 				SpriteCel cel;
 				cel.texture = aseprite.cels[cel_id].texture_id;
@@ -136,9 +144,11 @@ bool Graphic::loadResources() {
 			
 		}
 
-		// Load animations
+		// If no tags provided, use idle
 		if (aseprite.tags.empty())
 			aseprite.tags.push_back({ "idle", 0, glm::u16(aseprite.frames.size()-1), lad_forward, });
+
+		// Load animations
 		for (AsepriteTag tag : aseprite.tags) {
 			AnimationId animation_id = kAnimationNames.at(tag.name);
 			SpriteAnimation &animation = m_sprites[i].animations[animation_id];
@@ -146,16 +156,13 @@ bool Graphic::loadResources() {
 			//Calculate duration for one animation
 			animation = { 0, 0 };
 			int frame_id = 0;
-			std::cout << "Tag: "<< tag.from_frame_id << "|" << tag.to_frame_id << "\n";
 			while (frame_id < tag.from_frame_id)
 				animation.start += aseprite.frames[frame_id++].duration;
 			while (frame_id <= tag.to_frame_id)
 				animation.duration += aseprite.frames[frame_id++].duration;
 		}
 	}
-#
-	for (int i = 380 * 2; i < 384 * 2; i++)
-		std::cout << vertex_buffer_data[i].x << "|" << vertex_buffer_data[i].y << "\n";
+
 
 	glGenBuffers(1, &m_vertexbuffer_sprites);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer_sprites);

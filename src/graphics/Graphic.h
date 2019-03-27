@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef GRAPHIC_H
+#define GRAPHIC_H
 
 #include "../glad/glad.h"
 #include <glm/glm.hpp>
@@ -80,3 +81,5 @@ public:
 	void setView(glm::vec2 position, glm::vec2 size);
 	void setWindowSize(glm::vec2 size);
 };
+
+#endif GRAPHIC_H

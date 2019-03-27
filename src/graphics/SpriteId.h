@@ -20,14 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef SPRITE_ID_H
+#define SPRITE_ID_H
 
 enum SpriteId : size_t {
 	spr_old_hut,
+	spr_snow_fox,
 	SPRITE_COUNT
 };
 
 constexpr char* kSpritePaths[SPRITE_COUNT]{
-	"../sprites/spr_old_hut.aseprite"
+	"../sprites/spr_old_hut.aseprite",
+	"../sprites/spr_snow_fox.aseprite"
 };
 
+#endif SPRITE_ID_H

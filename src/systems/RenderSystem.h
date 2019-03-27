@@ -20,18 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef FONT_ID_H
-#define FONT_ID_H
+#ifndef RENDER_SYSTEM_H
+#define RENDER_SYSTEM_H
 
-enum FontId : size_t {
-	fnt_h16_good_neighbor,
-	fnt_h8_good_neighbor,
-	FONT_COUNT
+#include <entityx/entityx.h>
+#include <entityx/System.h>
+#include "../graphics/Graphic.h"
+
+class RenderSystem : public entityx::System<RenderSystem> {
+private:
+	Graphic& g;
+public:
 };
 
-constexpr char* kFontPaths[FONT_COUNT] = {
-	"../fonts/fnt_good_neighbors.aseprite",
-	"../fonts/fnt_dialog_font.aseprite"
-};
-
-#endif FONT_ID_H
+#endif RENDER_SYSTEM_H

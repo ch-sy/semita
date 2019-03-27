@@ -20,7 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef ANIMATION_ID_H
+#define ANIMATION_ID_H
+
 #include <map>
 #include <string>
 
@@ -34,3 +36,5 @@ const std::map<std::string, AnimationId> kAnimationNames{
 	{ "idle", ani_idle },
 	{ "run", ani_run }
 };
+
+#endif ANIMATION_ID_H

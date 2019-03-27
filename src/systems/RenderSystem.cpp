@@ -20,18 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef FONT_ID_H
-#define FONT_ID_H
+#include <glog/logging.h>
+#include <filesystem>
+#include "../graphics/Graphic.h"
+#include <GLFW/glfw3.h>
 
-enum FontId : size_t {
-	fnt_h16_good_neighbor,
-	fnt_h8_good_neighbor,
-	FONT_COUNT
-};
+Graphic graphic;
 
-constexpr char* kFontPaths[FONT_COUNT] = {
-	"../fonts/fnt_good_neighbors.aseprite",
-	"../fonts/fnt_dialog_font.aseprite"
-};
+void window_size_callback(GLFWwindow* window, int width, int height) {
+	if (window == NULL)
+		return;
+	graphic.setWindowSize(glm::vec2(width, height));
+}
 
-#endif FONT_ID_H
