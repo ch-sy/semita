@@ -28,6 +28,7 @@
 #include "../components/PositionComponent.h"
 #include "../components/SpriteComponent.h"
 #include "../components/GravityComponent.h"
+#include "../components/PhysicComponent.h"
 
 class MovementSystem : public entityx::System<MovementSystem> {
 public:

@@ -24,16 +24,19 @@
 #include "../systems/RenderSystem.h"
 #include "../systems/MovementSystem.h"
 
-LevelHome::LevelHome(Graphic &g) : m_g(g) {
+LevelHome::LevelHome(Graphic &g, GLFWwindow* window) : m_g(g), m_window(window) {
 	systems.add<RenderSystem>(g);
 	systems.add<MovementSystem>();
 	systems.configure();
 
 	// Create example entity
-	entityx::Entity example = entities.create();
-	example.assign<PositionComponent>(glm::vec2(0, 0));
-	example.assign<SpriteComponent>(spr_old_hut);
-	example.assign<GravityComponent>(10, 10);
+	for(int i = 0; i <= 200; i += 25){
+		entityx::Entity example = entities.create();
+		example.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
+		example.assign<SpriteComponent>(spr_snow_fox, 0);
+		example.assign<PhysicComponent>( glm::vec2( (rand() % 30) - 10.0f, (rand() % 30) - 10.0f) );
+	}
+	
 }
 
 void LevelHome::update(entityx::TimeDelta dt) {

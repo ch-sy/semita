@@ -22,8 +22,21 @@
 
 #include "MovementSystem.h"
 
+
 void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, GravityComponent>([&](entityx::Entity entity, PositionComponent &position, GravityComponent &gravity) {
-		position.pos.y += gravity.acceleration * dt;
+	
+	es.each<PositionComponent, PhysicComponent>([&](entityx::Entity entity, PositionComponent &position, PhysicComponent &phy) {
+		if(position.pos.x <= 0 && phy.speed.x < 0)
+			phy.speed.x = - phy.speed.x;
+		if(position.pos.x >= 192 && phy.speed.x > 0)
+			phy.speed.x = - phy.speed.x;
+		if(position.pos.y <= 0 && phy.speed.y < 0)
+			phy.speed.y = - phy.speed.y;
+		if(position.pos.y >= 192 && phy.speed.y > 0)
+			phy.speed.y = - phy.speed.y;
+
+		//phy.speed = phy.speed * 0.9 + glm::vec2(xpos, ypos) / 16.0;
+
+		position.pos += phy.speed * float(dt);
 	});
 }

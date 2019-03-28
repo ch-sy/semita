@@ -20,20 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef LEVEL_HOME_H
-#define LEVEL_HOME_H
+#ifndef PHYSIC_COMPONENT_H
+#define PHYSIC_COMPONENT_H
 
 #include <entityx/entityx.h>
-#include "../graphics/Graphic.h"
-#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
-class LevelHome : public entityx::EntityX {
-private:
-	Graphic &m_g;
-	GLFWwindow* m_window;
-public:
-	explicit LevelHome(Graphic &g, GLFWwindow* window);
-	void update(entityx::TimeDelta dt);
+struct PhysicComponent : entityx::Component<PhysicComponent> {
+	PhysicComponent(glm::vec2 speed) : speed(speed) {};
+	glm::vec2 speed;
 };
 
-#endif LEVEL_HOME_H
+#endif PHYSIC_COMPONENT_H

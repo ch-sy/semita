@@ -28,6 +28,8 @@ RenderSystem::RenderSystem(Graphic &g) : m_g(g){
 
 void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	es.each<PositionComponent, SpriteComponent>([&](entityx::Entity entity, PositionComponent &position, SpriteComponent &sprite) {
-		m_g.drawSprite(sprite.sprite_id, position.pos);
+		sprite.time += dt * 1000.0f;
+		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
 	});
+	m_g.drawSprite(spr_old_hut, glm::vec2(0, 0));
 }

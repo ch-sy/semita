@@ -29,6 +29,7 @@
 
 Graphic graphic;
 
+
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	if (window == NULL)
 		return;
@@ -55,7 +56,7 @@ int main(int argc, char* args[]) {
 	graphic.setWindowSize(glm::vec2(1024, 768));
 
 	glfwSetFramebufferSizeCallback(window, window_size_callback);
-	LevelHome level(graphic);
+	LevelHome level(graphic, window);
 	double dt = 0;
 	double pre_time = glfwGetTime();
 	while (!glfwWindowShouldClose(window)) {
