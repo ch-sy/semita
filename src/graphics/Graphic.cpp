@@ -53,8 +53,19 @@ void Graphic::drawSprite(SpriteId sprite,
 	}
 }
 
-void drawText(std::string text, glm::vec2 position) {
-
+void Graphic::drawText(std::string text, glm::vec2 position, FontId font_id) {
+	glBindTexture(GL_TEXTURE_2D, m_fonts[font_id].texture);
+	for (auto utfChar : text) {
+		glUniform2fv(m_uniform_position, 1, glm::value_ptr(position));
+		try {
+			const auto font_char = m_fonts[font_id].chars.at(utfChar);
+			glDrawArrays(GL_TRIANGLE_STRIP, font_char.vertex_start_id, 4);
+			position.x += font_char.extend;
+		}
+		catch (...) {
+			position.x += m_fonts[font_id].space.x;
+		}
+	}
 }
 
 void initTexture(AsepriteCel &cel) {

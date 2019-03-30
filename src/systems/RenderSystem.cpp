@@ -31,4 +31,5 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		sprite.time += dt * 1000.0f;
 		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
 	});
+	m_g.drawText("Test", glm::vec2(0, 0), fnt_h16_good_neighbor);
 }

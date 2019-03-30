@@ -77,7 +77,7 @@ private:
 public:
 	bool loadResources();
 	void drawSprite(SpriteId sprite, glm::vec2 position, AnimationId animation = ani_idle, int animation_progress = 0);
-	void drawText(std::string text, glm::vec2 position);
+	void drawText(std::string text, glm::vec2 position, FontId font_id);
 	void setView(glm::vec2 position, glm::vec2 size);
 	void setWindowSize(glm::vec2 size);
 };

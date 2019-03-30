@@ -27,7 +27,9 @@ ControlSystem::ControlSystem(GLFWwindow * window) : m_window(window){
 }
 
 void ControlSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-    
+	int count;
+	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+
     es.each<PositionComponent>([&](entityx::Entity entity, PositionComponent &position) {
         
 		if(glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
@@ -36,5 +38,7 @@ void ControlSystem::update(entityx::EntityManager &es, entityx::EventManager &ev
         if(glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
             position.pos.x -= 120.0f * float(dt);
         }
+		
+		position.pos += glm::vec2(120, 120) * glm::vec2(axes[0], axes[1]) * float(dt);
 	});
 }
