@@ -62,7 +62,7 @@ int main(int argc, char* args[]) {
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		graphic.setView(glm::vec2(0, 0), glm::vec2(256, 192));
-		glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
+		glClearColor(0.5f, 0.8f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		level.update(dt);
 		glfwSwapBuffers(window);

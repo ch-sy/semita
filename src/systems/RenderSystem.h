@@ -32,6 +32,7 @@
 class RenderSystem : public entityx::System<RenderSystem> {
 private:
 	Graphic &m_g;
+	float animation_progress;
 public:
 	RenderSystem(Graphic &g);
 	void update(entityx::EntityManager & es, entityx::EventManager & events, entityx::TimeDelta dt) override;

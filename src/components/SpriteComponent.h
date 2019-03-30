@@ -27,9 +27,9 @@
 #include "../graphics/SpriteId.h"
 
 struct SpriteComponent : entityx::Component<SpriteComponent> {
-	SpriteComponent(SpriteId sprite_id, int time) : sprite_id(sprite_id), time(time) {};
+	SpriteComponent(SpriteId sprite_id, float time) : sprite_id(sprite_id), time(time) {};
 	SpriteId sprite_id;
-	int time;
+	float time;
 };
 
 #endif SPRITE_COMPONENT_H

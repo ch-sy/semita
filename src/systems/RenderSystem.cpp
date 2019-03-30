@@ -21,9 +21,10 @@
 // SOFTWARE.
 
 #include "RenderSystem.h"
+#include <fmt/format.h>
 
 RenderSystem::RenderSystem(Graphic &g) : m_g(g){
-
+	animation_progress = 0.0f;
 }
 
 void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
@@ -31,5 +32,8 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		sprite.time += dt * 1000.0f;
 		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
 	});
-	m_g.drawText("Test", glm::vec2(0, 0), fnt_h16_good_neighbor);
+	m_g.drawText(fmt::format("Frame Time: {}ms", dt * 1000.0f), glm::vec2(0, 1), fnt_h9_default);
+	m_g.drawText(fmt::format("{}",glGetString(GL_RENDERER)), glm::vec2(0, 1+9), fnt_h9_default);
+	animation_progress += dt * 1000.0f;
+	m_g.drawSprite(spr_old_hut, glm::vec2(32, 128), ani_idle, animation_progress);
 }

@@ -60,7 +60,11 @@ struct FontChar {
 struct FontData {
 	glm::vec2 space;
 	GLuint texture;
-	std::map<glm::u32, FontChar> chars;
+	// vvv SLOW vvv
+	//std::map<glm::u32, FontChar> chars; 
+	glm::u32 first_char;
+	glm::u32 last_char;
+	FontChar chars[1024];
 };
 
 class Graphic {

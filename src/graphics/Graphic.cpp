@@ -57,12 +57,12 @@ void Graphic::drawText(std::string text, glm::vec2 position, FontId font_id) {
 	glBindTexture(GL_TEXTURE_2D, m_fonts[font_id].texture);
 	for (auto utfChar : text) {
 		glUniform2fv(m_uniform_position, 1, glm::value_ptr(position));
-		try {
-			const auto font_char = m_fonts[font_id].chars.at(utfChar);
+		if(utfChar >=  m_fonts[font_id].first_char && utfChar <=  m_fonts[font_id].last_char) {
+			const auto font_char = m_fonts[font_id].chars[utfChar];
 			glDrawArrays(GL_TRIANGLE_STRIP, font_char.vertex_start_id, 4);
 			position.x += font_char.extend;
 		}
-		catch (...) {
+		else {
 			position.x += m_fonts[font_id].space.x;
 		}
 	}
@@ -74,6 +74,8 @@ void initTexture(AsepriteCel &cel) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, cel.dimension.x, cel.dimension.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, cel.pixel_data.data());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 bool Graphic::loadResources() {
@@ -88,6 +90,8 @@ bool Graphic::loadResources() {
 		CHECK(decodeAseprite(aseprite, kFontPaths[i])) << "Can't load font " << kFontPaths[i];
 		initTexture(aseprite.cels[0]);
 		m_fonts[i].texture = aseprite.cels[0].texture_id;
+		m_fonts[i].first_char = 1023;
+		m_fonts[i].last_char = 0;
 		for (auto &slice : aseprite.slices) {
 			if (slice.first == "space") {
 				m_fonts[i].space = slice.second.dimension;
@@ -103,6 +107,10 @@ bool Graphic::loadResources() {
 				texdim /= aseprite.cels[0].dimension;
 
 				// Save dimension and position in the vertex buffer
+				if (utf32char < m_fonts[i].first_char)
+					m_fonts[i].first_char = utf32char;
+				if (utf32char > m_fonts[i].last_char)
+					m_fonts[i].last_char = utf32char;
 				m_fonts[i].chars[utf32char] = { float(slice.second.dimension.x - slice.second.pivot.x), GLint(vertex_buffer_data.size() / 2) };
 
 				// Add char to the vertex buffer

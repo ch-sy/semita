@@ -25,11 +25,13 @@
 
 enum FontId : size_t {
 	fnt_h16_good_neighbor,
+	fnt_h9_default,
 	FONT_COUNT
 };
 
 constexpr char* kFontPaths[FONT_COUNT] = {
-	"../fonts/fnt_good_neighbors.aseprite"
+	"../fonts/fnt_good_neighbors.aseprite",
+	"../fonts/fnt_default.aseprite"
 };
 
 #endif FONT_ID_H
