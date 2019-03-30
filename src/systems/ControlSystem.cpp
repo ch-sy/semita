@@ -20,28 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "LevelHome.h"
-#include "../systems/RenderSystem.h"
-#include "../systems/MovementSystem.h"
-#include "../systems/ControlSystem.h"
+#include "ControlSystem.h"
 
-LevelHome::LevelHome(Graphic &g, GLFWwindow* window) : m_g(g), m_window(window) {
-	systems.add<RenderSystem>(g);
-	systems.add<MovementSystem>();
-	systems.add<ControlSystem>(window);
-	systems.configure();
+ControlSystem::ControlSystem(GLFWwindow * window) : m_window(window){
 
-	// Create example entity
-	for(int i = 0; i <= 200; i += 25){
-		entityx::Entity example = entities.create();
-		example.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
-		example.assign<SpriteComponent>(spr_snow_fox, 0);
-		example.assign<PhysicComponent>( glm::vec2( (rand() % 30) - 10.0f, (rand() % 30) - 10.0f) );
-	}
 }
 
-void LevelHome::update(entityx::TimeDelta dt) {
-	systems.update<RenderSystem>(dt);
-	systems.update<MovementSystem>(dt);
-	systems.update<ControlSystem>(dt);
+void ControlSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+    
+    es.each<PositionComponent>([&](entityx::Entity entity, PositionComponent &position) {
+        
+		if(glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+            position.pos.x += 120.0f * float(dt);
+        }
+        if(glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+            position.pos.x -= 120.0f * float(dt);
+        }
+	});
 }

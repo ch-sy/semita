@@ -20,28 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "LevelHome.h"
-#include "../systems/RenderSystem.h"
-#include "../systems/MovementSystem.h"
-#include "../systems/ControlSystem.h"
+#ifndef WALK_COMPONENT_H
+#define WALK_COMPONENT_H
 
-LevelHome::LevelHome(Graphic &g, GLFWwindow* window) : m_g(g), m_window(window) {
-	systems.add<RenderSystem>(g);
-	systems.add<MovementSystem>();
-	systems.add<ControlSystem>(window);
-	systems.configure();
+#include <entityx/entityx.h>
+#include <glm/glm.hpp>
 
-	// Create example entity
-	for(int i = 0; i <= 200; i += 25){
-		entityx::Entity example = entities.create();
-		example.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
-		example.assign<SpriteComponent>(spr_snow_fox, 0);
-		example.assign<PhysicComponent>( glm::vec2( (rand() % 30) - 10.0f, (rand() % 30) - 10.0f) );
-	}
-}
+struct WalkComponent : entityx::Component<WalkComponent> {
+	WalkComponent(glm::vec2 dir, bool want_jump) : dir(dir), want_jump(want_jump) {};
+	glm::vec2 dir;
+    bool want_jump;
+};
 
-void LevelHome::update(entityx::TimeDelta dt) {
-	systems.update<RenderSystem>(dt);
-	systems.update<MovementSystem>(dt);
-	systems.update<ControlSystem>(dt);
-}
+#endif WALK_COMPONENT_H
