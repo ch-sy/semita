@@ -32,6 +32,4 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		sprite.time += dt * 1000.0f;
 		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
 	});
-	animation_progress += dt * 1000.0f;
-	m_g.drawSprite(spr_old_hut, glm::vec2(32, 128), ani_idle, animation_progress);
 }

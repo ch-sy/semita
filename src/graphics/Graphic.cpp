@@ -39,8 +39,7 @@ void Graphic::drawSprite(SpriteId sprite,
 						 glm::vec2 position, 
 						 AnimationId animation, 
 						 int animation_progress) {
-	glUniform2fv(m_uniform_position, 1, glm::value_ptr(position));
-
+	glUniform2fv(m_uniform_model, 1, glm::value_ptr(position));
 	const SpriteData& sprite_data = m_sprites[sprite];
 	const SpriteAnimation& sprite_animation = sprite_data.animations[animation];
 	CHECK(sprite_animation.duration > 0) << "Sprite \"" << kSpritePaths[sprite]
@@ -56,7 +55,7 @@ void Graphic::drawSprite(SpriteId sprite,
 void Graphic::drawText(std::string text, glm::vec2 position, FontId font_id) {
 	glBindTexture(GL_TEXTURE_2D, m_fonts[font_id].texture);
 	for (auto utfChar : text) {
-		glUniform2fv(m_uniform_position, 1, glm::value_ptr(position));
+		glUniform2fv(m_uniform_model, 1, glm::value_ptr(position));
 		if(utfChar >=  m_fonts[font_id].first_char && utfChar <=  m_fonts[font_id].last_char) {
 			const auto font_char = m_fonts[font_id].chars[utfChar];
 			glDrawArrays(GL_TRIANGLE_STRIP, font_char.vertex_start_id, 4);
@@ -199,7 +198,7 @@ bool Graphic::loadResources() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_shader_default = loadShader("../shader/shd_default.vert", "../shader/shd_default.frag");
-	m_uniform_position = glGetUniformLocation(m_shader_default, "model");
+	m_uniform_model = glGetUniformLocation(m_shader_default, "model");
 	m_uniform_projection_view = glGetUniformLocation(m_shader_default, "proj_view");
 	glUseProgram(m_shader_default);
 }

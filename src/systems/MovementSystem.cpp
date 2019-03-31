@@ -28,11 +28,11 @@ void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 	es.each<PositionComponent, PhysicComponent>([&](entityx::Entity entity, PositionComponent &position, PhysicComponent &phy) {
 		if(position.pos.x <= 0 && phy.speed.x < 0)
 			phy.speed.x = - phy.speed.x;
-		if(position.pos.x >= 192 && phy.speed.x > 0)
+		if(position.pos.x >= 512 && phy.speed.x > 0)
 			phy.speed.x = - phy.speed.x;
-		if (position.pos.y >= 128 && phy.speed.y > 0) {
+		if (position.pos.y >= 192 && phy.speed.y > 0) {
 			phy.speed.y = 0;
-			position.pos.y = 128;
+			position.pos.y = 192;
 		}
 		else
 			phy.speed.y += dt * 160;

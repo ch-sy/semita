@@ -26,12 +26,14 @@
 enum SpriteId : size_t {
 	spr_old_hut,
 	spr_snow_fox,
+	spr_flower,
 	SPRITE_COUNT
 };
 
 constexpr char* kSpritePaths[SPRITE_COUNT]{
 	"../sprites/spr_old_hut.aseprite",
-	"../sprites/spr_snow_fox.aseprite"
+	"../sprites/spr_snow_fox.aseprite",
+	"../sprites/spr_flower.aseprite"
 };
 
 #endif SPRITE_ID_H

@@ -34,11 +34,20 @@ LevelHome::LevelHome(Graphic &g, GLFWwindow* window) : m_g(g), m_window(window) 
 	systems.configure();
 
 	// Create example entity
-	for(int i = 0; i <= 5; i += 1){
+	/*for(int i = 0; i <= 5; i += 1){
 		entityx::Entity example = entities.create();
-		example.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
+		example.assign<PositionComponent>(glm::vec2(rand() % 512, 192));
 		example.assign<SpriteComponent>(spr_snow_fox, 0);
 		example.assign<PhysicComponent>( glm::vec2( (rand() % 30) - 10.0f, (rand() % 30) - 10.0f) );
+	}*/
+	entityx::Entity house = entities.create();
+	house.assign<PositionComponent>(glm::vec2(32, 137));
+	house.assign<SpriteComponent>(spr_old_hut, 0);
+	// Create flowers
+	for(int i = 0; i <= 5; i += 1){
+		entityx::Entity example = entities.create();
+		example.assign<PositionComponent>(glm::vec2(rand() % 512, 192));
+		example.assign<SpriteComponent>(spr_flower, 0);
 	}
 	entityx::Entity player = entities.create();
 	player.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));

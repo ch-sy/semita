@@ -70,7 +70,7 @@ struct FontData {
 class Graphic {
 private:
 	GLint		m_shader_default;
-	GLint		m_uniform_position;
+	GLint		m_uniform_model;
 	GLint		m_uniform_projection_view;
 	GLuint		m_vertexbuffer_sprites;
 	GLuint		m_vao;
