@@ -26,6 +26,7 @@
 #include <GLFW/glfw3.h>
 #include <entityx/entityx.h>
 #include "LevelHome.h"
+#include "../graphics/Aseprite.h"
 
 Graphic graphic;
 
@@ -49,6 +50,30 @@ int main(int argc, char* args[]) {
 	GLFWwindow* window;
 	CHECK(window = glfwCreateWindow(1024, 768, "semita", NULL, NULL)) << "Failed to create GLFW window";
 	glfwMakeContextCurrent(window);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	
+	Aseprite ase_cursor;
+	CHECK(decodeAseprite(ase_cursor, "../sprites/spr_cursor.aseprite")) << "Cursor image not found";
+	std::vector<unsigned char> pix_data;
+	const int ase_width = ase_cursor.cels[0].dimension.x;
+	const int ase_height = ase_cursor.cels[0].dimension.y;
+	const int factor = 8;
+	for(int iy = 0; iy < ase_height; iy++)
+	for(int fy = 0; fy < factor; fy++)
+	for(int ix = 0; ix < ase_width; ix++) 
+	for(int fx = 0; fx < factor; fx++){
+		pix_data.push_back((unsigned char)ase_cursor.cels[0].pixel_data[ix+iy*ase_width].r);
+		pix_data.push_back((unsigned char)ase_cursor.cels[0].pixel_data[ix+iy*ase_width].g);
+		pix_data.push_back((unsigned char)ase_cursor.cels[0].pixel_data[ix+iy*ase_width].b);
+		pix_data.push_back((unsigned char)ase_cursor.cels[0].pixel_data[ix+iy*ase_width].a);
+	}
+	
+	GLFWimage image;
+	image.width = ase_width * factor;
+	image.height = ase_height * factor;
+	image.pixels = pix_data.data();
+	GLFWcursor* cursor = glfwCreateCursor(&image, factor*1.5, factor*1.5);
+	glfwSetCursor(window, cursor);
 
 	// Init Graphic System
 	CHECK(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) << "Failed to initialize GLAD";
@@ -61,10 +86,14 @@ int main(int argc, char* args[]) {
 	double pre_time = glfwGetTime();
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
-		graphic.setView(glm::vec2(0, 0), glm::vec2(256, 192));
+		graphic.setView(glm::vec2(0, 0), glm::vec2(512, 386));
 		glClearColor(0.5f, 0.8f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		level.update(dt);
+		/*double cur_x, cur_y;
+		glfwPollEvents();
+		glfwGetCursorPos(window, &cur_x, &cur_y);
+		graphic.drawSprite(spr_cursor, graphic.toPixelSpace(glm::vec2(cur_x, cur_y)));*/
 		glfwSwapBuffers(window);
 
 		// Measure delta time

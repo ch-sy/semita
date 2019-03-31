@@ -20,18 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "RenderSystem.h"
-#include <fmt/format.h>
+#ifndef PLAYER_CONTROL_COMPONENT_H
+#define PLAYER_CONTROL_COMPONENT_H
 
-RenderSystem::RenderSystem(Graphic &g) : m_g(g){
-	animation_progress = 0.0f;
-}
+#include <entityx/entityx.h>
+#include <glm/glm.hpp>
+#include <vector>
 
-void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, SpriteComponent>([&](entityx::Entity entity, PositionComponent &position, SpriteComponent &sprite) {
-		sprite.time += dt * 1000.0f;
-		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
-	});
-	animation_progress += dt * 1000.0f;
-	m_g.drawSprite(spr_old_hut, glm::vec2(32, 128), ani_idle, animation_progress);
-}
+
+struct PlayerControlComponent : entityx::Component<PlayerControlComponent> {
+	PlayerControlComponent(){};
+	void* placeholder;
+};
+
+#endif PLAYER_CONTROL_COMPONENT_H

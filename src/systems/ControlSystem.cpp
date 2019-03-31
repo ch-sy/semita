@@ -27,18 +27,26 @@ ControlSystem::ControlSystem(GLFWwindow * window) : m_window(window){
 }
 
 void ControlSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	int count;
-	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+	
 
-    es.each<PositionComponent>([&](entityx::Entity entity, PositionComponent &position) {
+    es.each<PositionComponent, PlayerControlComponent, PhysicComponent>([&](entityx::Entity entity, PositionComponent &position, PlayerControlComponent &player, PhysicComponent &physic) {
         
-		if(glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-            position.pos.x += 120.0f * float(dt);
+		if(glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
+            physic.speed.x = 120.0f;
+        }else if(glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
+            physic.speed.x = -120.0f;
+        } else {
+            physic.speed.x = 0.0f;
         }
-        if(glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-            position.pos.x -= 120.0f * float(dt);
+        if(glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
+            physic.speed.y = -120.0f;
         }
 		
-		position.pos += glm::vec2(120, 120) * glm::vec2(axes[0], axes[1]) * float(dt);
+        if(glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE) {
+            int count;
+            const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+            position.pos += glm::vec2(120, 120) * glm::vec2(axes[0], axes[1]) * float(dt);
+        }
+		    
 	});
 }

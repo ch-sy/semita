@@ -24,24 +24,33 @@
 #include "../systems/RenderSystem.h"
 #include "../systems/MovementSystem.h"
 #include "../systems/ControlSystem.h"
+#include "../systems/DebugSystem.h"
 
 LevelHome::LevelHome(Graphic &g, GLFWwindow* window) : m_g(g), m_window(window) {
 	systems.add<RenderSystem>(g);
 	systems.add<MovementSystem>();
 	systems.add<ControlSystem>(window);
+	systems.add<DebugSystem>(window,g);
 	systems.configure();
 
 	// Create example entity
-	for(int i = 0; i <= 200; i += 25){
+	for(int i = 0; i <= 5; i += 1){
 		entityx::Entity example = entities.create();
 		example.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
 		example.assign<SpriteComponent>(spr_snow_fox, 0);
 		example.assign<PhysicComponent>( glm::vec2( (rand() % 30) - 10.0f, (rand() % 30) - 10.0f) );
 	}
+	entityx::Entity player = entities.create();
+	player.assign<PositionComponent>(glm::vec2(rand() % 256, rand() % 192));
+	player.assign<SpriteComponent>(spr_snow_fox, 0);
+	player.assign<PhysicComponent>( glm::vec2( 0,0) );
+	player.assign<PlayerControlComponent>();
 }
 
 void LevelHome::update(entityx::TimeDelta dt) {
-	systems.update<RenderSystem>(dt);
-	systems.update<MovementSystem>(dt);
+
 	systems.update<ControlSystem>(dt);
+	systems.update<MovementSystem>(dt);
+	systems.update<RenderSystem>(dt);
+	systems.update<DebugSystem>(dt);
 }

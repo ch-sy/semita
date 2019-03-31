@@ -68,6 +68,11 @@ void Graphic::drawText(std::string text, glm::vec2 position, FontId font_id) {
 	}
 }
 
+
+glm::vec2 Graphic::toPixelSpace(glm::vec2 screen_coordinates){
+	return screen_coordinates * m_view_size / m_window_size;
+}
+
 void initTexture(AsepriteCel &cel) {
 	glGenTextures(1, &cel.texture_id);
 	glBindTexture(GL_TEXTURE_2D, cel.texture_id);
@@ -208,8 +213,7 @@ void Graphic::setView(glm::vec2 position, glm::vec2 size) {
 	float pixel_size = glm::round(m_window_size.x / size.x);
 	if (pixel_size < 1)
 		pixel_size = 1;
-	float screen_width = float(m_window_size.x) / pixel_size;
-
-	glm::mat4 projection_view = glm::ortho(position.x, position.x+screen_width, position.y+float(m_window_size.y) / pixel_size, position.y);
+	m_view_size = glm::vec2(m_window_size.x, m_window_size.y) / pixel_size;
+	glm::mat4 projection_view = glm::ortho(position.x, position.x+m_view_size.x, position.y+m_view_size.y, position.y);
 	glUniformMatrix4fv(m_uniform_projection_view, 1, false, glm::value_ptr(projection_view));
 }

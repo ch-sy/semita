@@ -30,11 +30,9 @@ void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 			phy.speed.x = - phy.speed.x;
 		if(position.pos.x >= 192 && phy.speed.x > 0)
 			phy.speed.x = - phy.speed.x;
-		if (position.pos.y >= 128) {
+		if (position.pos.y >= 128 && phy.speed.y > 0) {
 			phy.speed.y = 0;
 			position.pos.y = 128;
-			if (rand() % 10000 == 0)
-				phy.speed.y -= 120;
 		}
 		else
 			phy.speed.y += dt * 160;

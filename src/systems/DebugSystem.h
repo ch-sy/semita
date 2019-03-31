@@ -20,18 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "RenderSystem.h"
-#include <fmt/format.h>
+#ifndef DEBUG_SYSTEM_H
+#define DEBUG_SYSTEM_H
 
-RenderSystem::RenderSystem(Graphic &g) : m_g(g){
-	animation_progress = 0.0f;
-}
+#include <entityx/entityx.h>
+#include <entityx/System.h>
+#include "../components/PositionComponent.h"
+#include "../components/SpriteComponent.h"
+#include "../components/GravityComponent.h"
+#include "../components/PhysicComponent.h"
+#include "../glad/glad.h"
+#include "../graphics/Graphic.h"
+#include <GLFW/glfw3.h>
 
-void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, SpriteComponent>([&](entityx::Entity entity, PositionComponent &position, SpriteComponent &sprite) {
-		sprite.time += dt * 1000.0f;
-		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
-	});
-	animation_progress += dt * 1000.0f;
-	m_g.drawSprite(spr_old_hut, glm::vec2(32, 128), ani_idle, animation_progress);
-}
+class DebugSystem : public entityx::System<DebugSystem> {
+private:
+    GLFWwindow* m_window;
+    Graphic &m_g;
+public:
+    DebugSystem(GLFWwindow* window, Graphic &g);
+	void update(entityx::EntityManager & es, entityx::EventManager & events, entityx::TimeDelta dt) override;
+};
+
+#endif DEBUG_SYSTEM_H

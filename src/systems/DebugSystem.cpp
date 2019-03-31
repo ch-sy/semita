@@ -20,18 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "RenderSystem.h"
+#include "DebugSystem.h"
 #include <fmt/format.h>
 
-RenderSystem::RenderSystem(Graphic &g) : m_g(g){
-	animation_progress = 0.0f;
+DebugSystem::DebugSystem(GLFWwindow * window, Graphic &g) : m_window(window), m_g(g){
 }
 
-void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, SpriteComponent>([&](entityx::Entity entity, PositionComponent &position, SpriteComponent &sprite) {
-		sprite.time += dt * 1000.0f;
-		m_g.drawSprite(sprite.sprite_id, position.pos, ani_idle, sprite.time);
-	});
-	animation_progress += dt * 1000.0f;
-	m_g.drawSprite(spr_old_hut, glm::vec2(32, 128), ani_idle, animation_progress);
+void DebugSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+    m_g.drawText("Debug:", glm::vec2(1,1), fnt_h16_good_neighbor);
+	m_g.drawText(fmt::format("Frame Time: {}ms", dt * 1000.0f), glm::vec2(1, 19), fnt_h9_default);
+	m_g.drawText(fmt::format("{}",glGetString(GL_RENDERER)), glm::vec2(1, 28), fnt_h9_default);
+    if(glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE)
+        m_g.drawText(fmt::format("{}",glfwGetJoystickName(GLFW_JOYSTICK_1)), glm::vec2(0, 37), fnt_h9_default);
 }

@@ -26,9 +26,8 @@
 #include <entityx/entityx.h>
 #include <entityx/System.h>
 #include "../components/PositionComponent.h"
-#include "../components/SpriteComponent.h"
-#include "../components/GravityComponent.h"
 #include "../components/PhysicComponent.h"
+#include "../components/PlayerControlComponent.h"
 #include "../glad/glad.h"
 #include <GLFW/glfw3.h>
 

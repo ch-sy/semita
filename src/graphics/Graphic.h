@@ -77,6 +77,7 @@ private:
 	SpriteData	m_sprites[SPRITE_COUNT];
 	FontData	m_fonts[FONT_COUNT];
 	glm::vec2	m_window_size;
+	glm::vec2	m_view_size;
 
 public:
 	bool loadResources();
@@ -84,6 +85,7 @@ public:
 	void drawText(std::string text, glm::vec2 position, FontId font_id);
 	void setView(glm::vec2 position, glm::vec2 size);
 	void setWindowSize(glm::vec2 size);
+	glm::vec2 toPixelSpace(glm::vec2 screen_coordinates);
 };
 
 #endif GRAPHIC_H
